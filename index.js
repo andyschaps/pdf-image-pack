@@ -37,7 +37,6 @@ var createDoc = function(imgs, options){
     // Use the image size as the page size for each image/page after the first
     if(i > 0){
       pageOptions = {size : [res.size.width, res.size.height]}
-      console.log("pageOptions => " + pageOptions)
       doc.addPage(pageOptions)
     }
     doc.image(res.path, 0, 0, res.size)
