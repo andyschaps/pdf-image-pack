@@ -27,25 +27,20 @@ var createDoc = function(imgs, options){
     return res
   })
 
-  // auto scaling
-  if(!options.size){
-    options.size = calcMaxSize(images)
-  }
-
+  // Construct the document with the size of the first image so the first page is that size
+  res = images[0]
+  options.size = [res.size.width, res.size.height]
   var doc = new PDFDocument(options)
-  var pageSize = {
-    width:  doc.page.width,
-    height: doc.page.height
-  }
 
-  // generate document
+  // Add each image to a PDF page
   images.forEach(function(res, i){
+    // Use the image size as the page size for each image/page after the first
     if(i > 0){
-      doc.addPage()
+      pageOptions = {size : [res.size.width, res.size.height]}
+      console.log("pageOptions => " + pageOptions)
+      doc.addPage(pageOptions)
     }
-    var size = dimension.calcSize(pageSize, res.size)
-    var offset = dimension.calcOffset(pageSize, size)
-    doc.image(res.path, offset.x, offset.y, size)
+    doc.image(res.path, 0, 0, res.size)
   })
   return doc
 }
