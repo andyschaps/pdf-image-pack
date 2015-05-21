@@ -29,17 +29,18 @@ var createDoc = function(imgs, options){
 
   // Construct the document with the size of the first image so the first page is that size
   res = images[0]
-  options.size = [res.size.width, res.size.height]
+  options.size = [(res.size.width * 0.24), (res.size.height * 0.24)]
   var doc = new PDFDocument(options)
 
   // Add each image to a PDF page
   images.forEach(function(res, i){
     // Use the image size as the page size for each image/page after the first
     if(i > 0){
-      pageOptions = {size : [res.size.width, res.size.height]}
+      pageOptions = {size : [(res.size.width * 0.24), (res.size.height * 0.24)]}
       doc.addPage(pageOptions)
     }
-    doc.image(res.path, 0, 0, res.size)
+    imageOptions = {width : res.size.width, height : res.size.height, scale : 0.24}
+    doc.image(res.path, 0, 0, imageOptions)
   })
   return doc
 }
